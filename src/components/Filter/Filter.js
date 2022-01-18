@@ -1,39 +1,34 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import actions from '../../redux/phonebook/phonebook-actions';
+import { changeFilter } from '../../redux/phonebook/phonebook-actions.js';
+import TextField from '@mui/material/TextField';
 
-import s from './Filter.module.css';
-
-const Filter = ({ value, onChange }) => (
-  <div className={s.wrapper}>
-    <label className={s.label}>
-      Find by Name
-      <input
-        className={s.input}
-        type="text"
-        value={value}
-        onChange={onChange}
-      />
-    </label>
-  </div>
-);
-
-Filter.defaultProps = {
-  filter: '',
+const Filter = ({ filter, changeFilter }) => {
+  return (
+    <form action="">
+      <label htmlFor="">
+        {/* <p> Find contacts by name</p> */}
+        <TextField
+          label="Find contacts by name..."
+          variant="standard"
+          placeholder="Find contacts by name..."
+          onChange={e => changeFilter(e.currentTarget.value)}
+          type="text"
+          name="name"
+          id="standard-basic"
+          value={filter}
+          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+          title="Имя может состоять только из букв, апострофа, тире и пробелов. Например Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
+        />
+      </label>
+    </form>
+  );
 };
 
-Filter.propTypes = {
-  filter: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = ({ filter }) => ({
-  value: filter,
-});
+const mapStateToProps = ({ contacts: { filter } }) => ({ filter: filter });
 
 const mapDispatchToProps = dispatch => ({
-  onChange: event => dispatch(actions.changeFilter(event.target.value)),
+  changeFilter: value => dispatch(changeFilter(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Filter);

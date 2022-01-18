@@ -1,24 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import css from './Container.module.css';
 
-import s from './Container.module.css';
-
-const Container = ({ title, children }) => (
-  <section className={s.section}>
-    {title && <h2 className={s.heading}>{title}</h2>}
-    {children}
-  </section>
-);
-Container.defaultProps = {
-  title: '',
+const Container = ({ children }) => {
+  return <div className={css.ContainerWrapper}>{children}</div>;
 };
 
 Container.propTypes = {
-  title: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]).isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 export default Container;
